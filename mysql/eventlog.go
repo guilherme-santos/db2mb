@@ -14,6 +14,8 @@ import (
 	"errors"
 	"fmt"
 	"unsafe"
+
+	"github.com/RideLink-carshare/db2mb"
 )
 
 type EventLog struct {
@@ -21,7 +23,7 @@ type EventLog struct {
 	binlog unsafe.Pointer
 }
 
-func handleError(resp C.struct_resp_error_t) (bool, error) {
+func handleError(resp C.struct_resp_t) (bool, error) {
 	ok := bool(resp.ok)
 	message := C.GoString(resp.message)
 
@@ -58,4 +60,32 @@ func (eventlog *EventLog) Disconnect() error {
 	}
 
 	return nil
+}
+
+func (eventlog *EventLog) SetPosition(pos uint) error {
+	resp := C.BinaryLog_SetPosition(eventlog.binlog, C.ulong(pos))
+
+	ok, err := handleError(resp)
+	if !ok {
+		return err
+	}
+
+	return nil
+}
+
+func (eventlog *EventLog) WaitForEvent() (db2mb.Event, error) {
+	resp := C.Driver_GetNextEvent(eventlog.driver)
+
+	ok, err := handleError(resp)
+	if !ok {
+		return nil, err
+	}
+
+	if resp.data == nil {
+		return eventlog.WaitForEvent()
+	}
+
+	event := NewEvent(resp.data)
+
+	return event, nil
 }
