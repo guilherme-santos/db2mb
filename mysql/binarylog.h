@@ -1,8 +1,8 @@
 #ifndef _MYSQL_BINARYLOG_H_
 #define _MYSQL_BINARYLOG_H_
 
-#include <stdbool.h>
 #include "driver.h"
+#include "util.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -10,15 +10,11 @@ extern "C" {
 
 typedef void BinaryLog;
 
-struct resp_error_t {
-    bool ok;
-    const char *message;
-};
-
 BinaryLog *NewBinaryLog(Driver *driver);
 
-struct resp_error_t BinaryLog_Connect(BinaryLog *self);
-struct resp_error_t BinaryLog_Disconnect(BinaryLog *self);
+struct resp_t BinaryLog_Connect(BinaryLog *self);
+struct resp_t BinaryLog_Disconnect(BinaryLog *self);
+struct resp_t BinaryLog_SetPosition(BinaryLog *self, unsigned long position);
 
 #ifdef __cplusplus
 }

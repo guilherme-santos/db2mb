@@ -12,36 +12,52 @@ BinaryLog *NewBinaryLog(Driver *driver) {
     return static_cast<BinaryLog*>(binlog);
 }
 
-struct resp_error_t BinaryLog_Connect(BinaryLog *self) {
+struct resp_t BinaryLog_Connect(BinaryLog *self) {
     Binary_log *binlog = static_cast<Binary_log*>(self);
-    struct resp_error_t error;
+    struct resp_t resp;
 
     int code = binlog->connect();
     if (code == ERR_OK) {
-        error.ok = true;
-        error.message = NULL;
+        resp.ok = true;
+        resp.message = NULL;
     } else {
-        error.ok = false;
-        error.message = str_error(code);
+        resp.ok = false;
+        resp.message = str_error(code);
     }
 
-    return error;
+    return resp;
 }
 
-struct resp_error_t BinaryLog_Disconnect(BinaryLog *self) {
+struct resp_t BinaryLog_Disconnect(BinaryLog *self) {
     Binary_log *binlog = static_cast<Binary_log*>(self);
-    struct resp_error_t error;
+    struct resp_t resp;
 
     int code = binlog->disconnect();
     if (code == ERR_OK) {
-        error.ok = true;
-        error.message = NULL;
+        resp.ok = true;
+        resp.message = NULL;
     } else {
-        error.ok = false;
-        error.message = str_error(code);
+        resp.ok = false;
+        resp.message = str_error(code);
     }
 
-    return error;
+    return resp;
+}
+
+struct resp_t BinaryLog_SetPosition(BinaryLog *self, unsigned long position) {
+    Binary_log *binlog = static_cast<Binary_log*>(self);
+    struct resp_t resp;
+
+    int code = binlog->set_position(position);
+    if (code == ERR_OK) {
+        resp.ok = true;
+        resp.message = NULL;
+    } else {
+        resp.ok = false;
+        resp.message = str_error(code);
+    }
+
+    return resp;
 }
 
 } // extern "C"
