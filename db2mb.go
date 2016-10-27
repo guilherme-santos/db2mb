@@ -10,8 +10,8 @@ type EventLog interface {
 }
 
 type EventType struct {
-	ID   uint
-	Name string
+	ID   uint   `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
 }
 
 type Event interface {
