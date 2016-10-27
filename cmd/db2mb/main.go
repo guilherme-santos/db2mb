@@ -49,14 +49,6 @@ func main() {
 		logger.Info("-> New event: #%02d - %s", eventType.ID, eventType.Name)
 		logger.Info(event.String())
 
-		// if mysqlEvent.DB != "" {
-		// 	logger.Info("   DB: %s", mysqlEvent.DB)
-		// }
-		// if mysqlEvent.Table != "" {
-		// 	logger.Info("   Table: #%04d %v", mysqlEvent.TableID, mysqlEvent.Table)
-		// }
-
-		// event.Print()
-		time.Sleep(5 * time.Second)
+		time.Sleep(1 * time.Second)
 	}
 }
