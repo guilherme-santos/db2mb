@@ -57,7 +57,10 @@ func NewEvent(event unsafe.Pointer) db2mb.Event {
 		ev.MySQLSchema = MySQLSchema{
 			DB: C.GoString(C.QueryEvent_GetDBName(ev.ptr)),
 		}
-	} else if ev.eventType == EventTypeTableMap {
+	} else if ev.eventType == EventTypePreGAWriteRows || ev.eventType == EventTypeWriteRows || ev.eventType == EventTypeWriteRowsV1 ||
+		ev.eventType == EventTypePreGAUpdateRows || ev.eventType == EventTypeUpdateRows || ev.eventType == EventTypeUpdateRowsV1 ||
+		ev.eventType == EventTypePreGADeleteRows || ev.eventType == EventTypeDeleteRows || ev.eventType == EventTypeDeleteRowsV1 {
+
 		ev.tableID = uint(C.RowsEvent_GetTableID(ev.ptr))
 		ev.MySQLSchema = tables[ev.tableID]
 	}
@@ -88,6 +91,12 @@ func (ev *MySQLEvent) JSON() map[string]interface{} {
 
 	if ev.eventType == EventTypeQuery {
 		result["query"] = C.GoString(C.QueryEvent_GetQuery(ev.ptr))
+	} else if ev.eventType == EventTypePreGAWriteRows || ev.eventType == EventTypeWriteRows || ev.eventType == EventTypeWriteRowsV1 {
+		result["operation"] = "insert"
+	} else if ev.eventType == EventTypePreGAUpdateRows || ev.eventType == EventTypeUpdateRows || ev.eventType == EventTypeUpdateRowsV1 {
+		result["operation"] = "update"
+	} else if ev.eventType == EventTypePreGADeleteRows || ev.eventType == EventTypeDeleteRows || ev.eventType == EventTypeDeleteRowsV1 {
+		result["operation"] = "delete"
 	}
 
 	return result
