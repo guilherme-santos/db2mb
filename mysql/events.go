@@ -25,15 +25,15 @@ var (
 	EventTypeTableMap           = db2mb.EventType{ID: 19, Name: "Table_map"}
 	EventTypePreGAWriteRows     = db2mb.EventType{ID: 20, Name: "Write_rows_event_old"}
 	EventTypePreGAUpdateRows    = db2mb.EventType{ID: 21, Name: "Update_rows_event_old"}
-	EventTypePreDeleteRows      = db2mb.EventType{ID: 22, Name: "Delete_rows_event_old"}
-	EventTypeWwriteRowsV1       = db2mb.EventType{ID: 23, Name: "Write_rows_v1"}
+	EventTypePreGADeleteRows    = db2mb.EventType{ID: 22, Name: "Delete_rows_event_old"}
+	EventTypeWriteRowsV1        = db2mb.EventType{ID: 23, Name: "Write_rows_v1"}
 	EventTypeUpdateRowsV1       = db2mb.EventType{ID: 24, Name: "Update_rows_v1"}
 	EventTypeDeleteRowsV1       = db2mb.EventType{ID: 25, Name: "Delete_rows_v1"}
 	EventTypeIncident           = db2mb.EventType{ID: 26, Name: "Incident"}
 	EventTypeHeartbeatLog       = db2mb.EventType{ID: 27, Name: "Heartbeat"}
 	EventTypeIgnorableLog       = db2mb.EventType{ID: 28, Name: "Ignorable"}
 	EventTypeRowsQueryLog       = db2mb.EventType{ID: 29, Name: "Rows_query"}
-	EventTypeWwriteRows         = db2mb.EventType{ID: 30, Name: "Write_rows"}
+	EventTypeWriteRows          = db2mb.EventType{ID: 30, Name: "Write_rows"}
 	EventTypeUpdateRows         = db2mb.EventType{ID: 31, Name: "Update_rows"}
 	EventTypeDeleteRows         = db2mb.EventType{ID: 32, Name: "Delete_rows"}
 	EventTypeGTIDLog            = db2mb.EventType{ID: 33, Name: "Gtid"}
@@ -66,15 +66,15 @@ var events = map[uint]db2mb.EventType{
 	EventTypeTableMap.ID:           EventTypeTableMap,
 	EventTypePreGAWriteRows.ID:     EventTypePreGAWriteRows,
 	EventTypePreGAUpdateRows.ID:    EventTypePreGAUpdateRows,
-	EventTypePreDeleteRows.ID:      EventTypePreDeleteRows,
-	EventTypeWwriteRowsV1.ID:       EventTypeWwriteRowsV1,
+	EventTypePreGADeleteRows.ID:    EventTypePreGADeleteRows,
+	EventTypeWriteRowsV1.ID:        EventTypeWriteRowsV1,
 	EventTypeUpdateRowsV1.ID:       EventTypeUpdateRowsV1,
 	EventTypeDeleteRowsV1.ID:       EventTypeDeleteRowsV1,
 	EventTypeIncident.ID:           EventTypeIncident,
 	EventTypeHeartbeatLog.ID:       EventTypeHeartbeatLog,
 	EventTypeIgnorableLog.ID:       EventTypeIgnorableLog,
 	EventTypeRowsQueryLog.ID:       EventTypeRowsQueryLog,
-	EventTypeWwriteRows.ID:         EventTypeWwriteRows,
+	EventTypeWriteRows.ID:          EventTypeWriteRows,
 	EventTypeUpdateRows.ID:         EventTypeUpdateRows,
 	EventTypeDeleteRows.ID:         EventTypeDeleteRows,
 	EventTypeGTIDLog.ID:            EventTypeGTIDLog,
