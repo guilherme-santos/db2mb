@@ -28,28 +28,28 @@ void Event_PrintEventInfo(Event *self) {
     std::cout << "Event info: " << event->get_event_type() << std::endl;
     event->print_long_info(std::cout);
     std::cout << std::endl;
-    std::cout << "----------" << std::endl;
+    std::cout << "----" << std::endl;
 }
 
-const char *EventTable_GetDBName(Event *self) {
+const char *TableEvent_GetDBName(Event *self) {
     Table_map_event *event = static_cast<Table_map_event*>(self);
 
     return event->m_dbnam.c_str();
 }
 
-const char *EventTable_GetTableName(Event *self) {
+const char *TableEvent_GetTableName(Event *self) {
     Table_map_event *event = static_cast<Table_map_event*>(self);
 
     return event->m_tblnam.c_str();
 }
 
-unsigned int EventTable_GetTableID(Event *self) {
+unsigned int TableEvent_GetTableID(Event *self) {
     Table_map_event *event = static_cast<Table_map_event*>(self);
 
     return event->get_table_id();
 }
 
-unsigned int EventRows_GetTableID(Event *self) {
+unsigned int RowsEvent_GetTableID(Event *self) {
     Rows_event *event = static_cast<Rows_event*>(self);
 
     return event->get_table_id();

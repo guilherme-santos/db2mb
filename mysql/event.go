@@ -6,6 +6,7 @@ package mysql
 import "C"
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 	"unsafe"
 
@@ -43,17 +44,17 @@ func NewEvent(event unsafe.Pointer) db2mb.Event {
 	}
 
 	if ev.eventType == EventTypeTableMap {
-		ev.tableID = uint(C.EventTable_GetTableID(ev.ptr))
+		ev.tableID = uint(C.TableEvent_GetTableID(ev.ptr))
 
 		schema := MySQLSchema{
-			DB:    C.GoString(C.EventTable_GetDBName(ev.ptr)),
-			Table: C.GoString(C.EventTable_GetTableName(ev.ptr)),
+			DB:    C.GoString(C.TableEvent_GetDBName(ev.ptr)),
+			Table: C.GoString(C.TableEvent_GetTableName(ev.ptr)),
 		}
 
 		ev.MySQLSchema = schema
 		tables[ev.tableID] = schema
 	} else if ev.eventType == EventTypeTableMap {
-		ev.tableID = uint(C.EventRows_GetTableID(ev.ptr))
+		ev.tableID = uint(C.RowsEvent_GetTableID(ev.ptr))
 		ev.MySQLSchema = tables[ev.tableID]
 	}
 
@@ -75,7 +76,7 @@ func (ev *MySQLEvent) JSON() map[string]interface{} {
 	}
 
 	if ev.eventType == EventTypeQuery {
-		// result["database"] = C.GoString(C.EventTable_GetDBName(ev.ptr)),
+		// result["database"] = C.GoString(C.TableEvent_GetDBName(ev.ptr)),
 	}
 
 	return result
@@ -87,5 +88,6 @@ func (ev *MySQLEvent) String() string {
 	}
 
 	j, _ := json.MarshalIndent(ev.JSON(), "", "    ")
-	return string(j)
+
+	return fmt.Sprintf("%s\n--------------------------------------", string(j))
 }
