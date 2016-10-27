@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/NeowayLabs/logger"
 	"github.com/RideLink-carshare/db2mb"
 	"github.com/RideLink-carshare/db2mb/mysql"
@@ -24,7 +26,14 @@ func main() {
 		logger.Fatal("Cannot set start position: %v", err)
 	}
 
-	logger.Info("Waiting for new events...")
+	logger.Info("Waiting for new events...\n")
+
+	ignoreEvents := map[db2mb.EventType]struct{}{
+		mysql.EventTypeAnonymousGTIDLog:  struct{}{},
+		mysql.EventTypeXID:               struct{}{},
+		mysql.EventTypeFormatDescription: struct{}{},
+		mysql.EventTypePreviousGTIDSLog:  struct{}{},
+	}
 
 	for {
 		event, err := eventlog.WaitForEvent()
@@ -32,6 +41,22 @@ func main() {
 			logger.Fatal("Cannot read event: %v", err)
 		}
 
-		logger.Info("-> Event sucessfuly read: %+v", event)
+		eventType := event.GetType()
+		if _, ok := ignoreEvents[eventType]; ok {
+			continue
+		}
+
+		logger.Info("-> New event: #%02d - %s", eventType.ID, eventType.Name)
+		logger.Info(event.String())
+
+		// if mysqlEvent.DB != "" {
+		// 	logger.Info("   DB: %s", mysqlEvent.DB)
+		// }
+		// if mysqlEvent.Table != "" {
+		// 	logger.Info("   Table: #%04d %v", mysqlEvent.TableID, mysqlEvent.Table)
+		// }
+
+		// event.Print()
+		time.Sleep(5 * time.Second)
 	}
 }

@@ -3,8 +3,12 @@
 package mysql
 
 /*
-#cgo CPPFLAGS: -I./mysql-binary-log-events/include -I/usr/include/mysql
-#cgo LDFLAGS: -L./mysql-binary-log-events/lib -lmysqlstream -lbinlogevents
+#cgo CPPFLAGS: -I/home/guilherme/Downloads/mysql-binary-log-events-1.0.2-labs/libbinlogevents/include
+#cgo CPPFLAGS: -I/home/guilherme/Downloads/mysql-binary-log-events-1.0.2-labs/libbinlogevents/export
+#cgo CPPFLAGS: -I/home/guilherme/Downloads/mysql-binary-log-events-1.0.2-labs/bindings/include
+#cgo CPPFLAGS: -I/home/guilherme/Downloads/mysql-5.7.16-linux-glibc2.5-x86_64/include/
+#cgo LDFLAGS: -L/home/guilherme/Downloads/mysql-binary-log-events-1.0.2-labs/lib -lmysqlstream
+#cgo LDFLAGS: -L/home/guilherme/Downloads/mysql-binary-log-events-1.0.2-labs/libbinlogevents/lib -lbinlogevents
 
 #include "driver.h"
 #include "binarylog.h"

@@ -1,5 +1,7 @@
 package db2mb
 
+import "time"
+
 type EventLog interface {
 	Connect() error
 	Disconnect() error
@@ -7,8 +9,14 @@ type EventLog interface {
 	WaitForEvent() (Event, error)
 }
 
-type EventType
+type EventType struct {
+	ID   uint
+	Name string
+}
 
 type Event interface {
-    GetType() int
+	GetWhen() time.Time
+	GetType() EventType
+	JSON() map[string]interface{}
+	String() string
 }
