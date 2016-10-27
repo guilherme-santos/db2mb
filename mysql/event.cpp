@@ -31,6 +31,18 @@ void Event_PrintEventInfo(Event *self) {
     std::cout << "----" << std::endl;
 }
 
+const char *QueryEvent_GetDBName(Event *self) {
+    Query_event *event = static_cast<Query_event*>(self);
+
+    return event->db;
+}
+
+const char *QueryEvent_GetQuery(Event *self) {
+    Query_event *event = static_cast<Query_event*>(self);
+
+    return event->query;
+}
+
 const char *TableEvent_GetDBName(Event *self) {
     Table_map_event *event = static_cast<Table_map_event*>(self);
 

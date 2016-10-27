@@ -53,6 +53,10 @@ func NewEvent(event unsafe.Pointer) db2mb.Event {
 
 		ev.MySQLSchema = schema
 		tables[ev.tableID] = schema
+	} else if ev.eventType == EventTypeQuery {
+		ev.MySQLSchema = MySQLSchema{
+			DB: C.GoString(C.QueryEvent_GetDBName(ev.ptr)),
+		}
 	} else if ev.eventType == EventTypeTableMap {
 		ev.tableID = uint(C.RowsEvent_GetTableID(ev.ptr))
 		ev.MySQLSchema = tables[ev.tableID]
@@ -75,8 +79,15 @@ func (ev *MySQLEvent) JSON() map[string]interface{} {
 		"type": ev.eventType,
 	}
 
+	if ev.MySQLSchema.DB != "" {
+		result["database"] = ev.MySQLSchema.DB
+	}
+	if ev.MySQLSchema.Table != "" {
+		result["table"] = ev.MySQLSchema.Table
+	}
+
 	if ev.eventType == EventTypeQuery {
-		// result["database"] = C.GoString(C.TableEvent_GetDBName(ev.ptr)),
+		result["query"] = C.GoString(C.QueryEvent_GetQuery(ev.ptr))
 	}
 
 	return result
