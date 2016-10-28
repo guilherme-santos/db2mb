@@ -66,6 +66,12 @@ func (eventlog *EventLog) Disconnect() error {
 	return nil
 }
 
+func (eventlog *EventLog) GetPosition() uint {
+	position := C.BinaryLog_GetPosition(eventlog.binlog)
+
+	return uint(position)
+}
+
 func (eventlog *EventLog) SetPosition(pos uint) error {
 	resp := C.BinaryLog_SetPosition(eventlog.binlog, C.ulong(pos))
 

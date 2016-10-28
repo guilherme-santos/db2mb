@@ -5,6 +5,7 @@ import "time"
 type EventLog interface {
 	Connect() error
 	Disconnect() error
+	GetPosition() uint
 	SetPosition(pos uint) error
 	WaitForEvent() (Event, error)
 }

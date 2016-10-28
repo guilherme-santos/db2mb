@@ -14,6 +14,8 @@ BinaryLog *NewBinaryLog(Driver *driver);
 
 struct resp_t BinaryLog_Connect(BinaryLog *self);
 struct resp_t BinaryLog_Disconnect(BinaryLog *self);
+
+unsigned long BinaryLog_GetPosition(BinaryLog *self);
 struct resp_t BinaryLog_SetPosition(BinaryLog *self, unsigned long position);
 
 #ifdef __cplusplus

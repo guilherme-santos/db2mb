@@ -44,6 +44,13 @@ struct resp_t BinaryLog_Disconnect(BinaryLog *self) {
     return resp;
 }
 
+unsigned long BinaryLog_GetPosition(BinaryLog *self) {
+    Binary_log *binlog = static_cast<Binary_log*>(self);
+    struct resp_t resp;
+
+    return binlog->get_position();
+}
+
 struct resp_t BinaryLog_SetPosition(BinaryLog *self, unsigned long position) {
     Binary_log *binlog = static_cast<Binary_log*>(self);
     struct resp_t resp;
