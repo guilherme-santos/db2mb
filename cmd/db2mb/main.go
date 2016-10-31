@@ -1,8 +1,6 @@
 package main
 
 import (
-	"time"
-
 	"github.com/NeowayLabs/logger"
 	"github.com/RideLink-carshare/db2mb"
 	"github.com/RideLink-carshare/db2mb/mysql"
@@ -29,10 +27,18 @@ func main() {
 	logger.Info("Waiting for new events...\n")
 
 	ignoreEvents := map[db2mb.EventType]struct{}{
+		db2mb.EventType{ID: 9800704}:     struct{}{},
+		db2mb.EventType{ID: 9796608}:     struct{}{},
 		mysql.EventTypeAnonymousGTIDLog:  struct{}{},
 		mysql.EventTypeXID:               struct{}{},
 		mysql.EventTypeFormatDescription: struct{}{},
 		mysql.EventTypePreviousGTIDSLog:  struct{}{},
+
+		// mysql.EventTypeQuery: struct{}{},
+		// mysql.EventTypeTableMap:   struct{}{},
+		// mysql.EventTypeWriteRows:  struct{}{},
+		// mysql.EventTypeUpdateRows: struct{}{},
+		// mysql.EventTypeDeleteRows: struct{}{},
 	}
 
 	for {
@@ -47,8 +53,6 @@ func main() {
 		}
 
 		logger.Info("-> New event: #%02d - %s", eventType.ID, eventType.Name)
-		logger.Info(event.String())
-
-		time.Sleep(1 * time.Second)
+		logger.Info("Payload:\n%s", event.String())
 	}
 }
